@@ -348,10 +348,13 @@
 
         /* Resume Templates */
         .resume-template {
-            padding: 40px;
+            padding: 30px;
             font-family: 'Inter', sans-serif;
-            line-height: 1.6;
+            line-height: 1.5;
             color: #333;
+            font-size: 14px;
+            max-height: 800px;
+            overflow: hidden;
         }
 
         .modern-template {
@@ -361,21 +364,21 @@
 
         .modern-template .resume-header {
             text-align: center;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
             border-bottom: 2px solid rgba(255,255,255,0.3);
         }
 
         .modern-template .resume-name {
-            font-size: 2.5rem;
+            font-size: 2rem;
             font-weight: 700;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         .modern-template .resume-title {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             opacity: 0.9;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
 
         .classic-template {
@@ -386,12 +389,12 @@
 
         .classic-template .resume-header {
             border-bottom: 3px solid #333;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
         }
 
         .classic-template .resume-name {
-            font-size: 2.2rem;
+            font-size: 1.8rem;
             font-weight: 600;
             margin-bottom: 5px;
         }
@@ -403,11 +406,11 @@
 
         .creative-template .resume-header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
 
         .creative-template .resume-name {
-            font-size: 2.8rem;
+            font-size: 2.2rem;
             font-weight: 700;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
@@ -418,32 +421,32 @@
         }
 
         .minimalist-template .resume-header {
-            margin-bottom: 40px;
+            margin-bottom: 30px;
         }
 
         .minimalist-template .resume-name {
-            font-size: 2rem;
+            font-size: 1.6rem;
             font-weight: 300;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             color: #1f2937;
         }
 
         .resume-section {
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
 
         .resume-section h3 {
-            font-size: 1.3rem;
+            font-size: 1.1rem;
             font-weight: 600;
-            margin-bottom: 15px;
-            padding-bottom: 5px;
+            margin-bottom: 10px;
+            padding-bottom: 3px;
             border-bottom: 2px solid currentColor;
         }
 
         .experience-item,
         .education-item {
-            margin-bottom: 20px;
-            padding-left: 20px;
+            margin-bottom: 15px;
+            padding-left: 15px;
             border-left: 3px solid currentColor;
         }
 
@@ -451,35 +454,42 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 5px;
+            margin-bottom: 3px;
         }
 
         .item-title {
             font-weight: 600;
-            font-size: 1.1rem;
+            font-size: 1rem;
         }
 
         .item-company {
             font-style: italic;
             opacity: 0.8;
+            font-size: 0.9rem;
         }
 
         .item-date {
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             opacity: 0.7;
+        }
+
+        .item-description {
+            font-size: 0.85rem;
+            margin-top: 5px;
+            line-height: 1.4;
         }
 
         .skills-list {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 8px;
         }
 
         .skill-tag {
             background: rgba(255,255,255,0.2);
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.9rem;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
             font-weight: 500;
         }
 
@@ -522,11 +532,11 @@
         <div class="main-content">
             <div class="form-section">
                 <div class="step-indicator">
-                    <div class="step active" data-step="1">1</div>
-                    <div class="step" data-step="2">2</div>
-                    <div class="step" data-step="3">3</div>
-                    <div class="step" data-step="4">4</div>
-                    <div class="step" data-step="5">5</div>
+                    <div class="step active" data-step="1" onclick="goToStep(1)">1</div>
+                    <div class="step" data-step="2" onclick="goToStep(2)">2</div>
+                    <div class="step" data-step="3" onclick="goToStep(3)">3</div>
+                    <div class="step" data-step="4" onclick="goToStep(4)">4</div>
+                    <div class="step" data-step="5" onclick="goToStep(5)">5</div>
                 </div>
 
                 <!-- Step 1: Template Selection -->
@@ -724,7 +734,25 @@
             });
         });
 
-        // Step navigation
+        // Step navigation functions
+        function goToStep(step) {
+            if (step >= 1 && step <= 5) {
+                // Hide current step
+                document.getElementById(`step-${currentStep}`).classList.remove('active');
+                document.querySelector(`.step[data-step="${currentStep}"]`).classList.remove('active');
+                
+                // Show target step
+                currentStep = step;
+                document.getElementById(`step-${currentStep}`).classList.add('active');
+                document.querySelector(`.step[data-step="${currentStep}"]`).classList.add('active');
+                
+                // Update step indicators
+                updateStepIndicators();
+                collectFormData();
+                updatePreview();
+            }
+        }
+
         function nextStep() {
             if (currentStep < 5) {
                 document.getElementById(`step-${currentStep}`).classList.remove('active');
@@ -750,6 +778,19 @@
                 document.querySelector(`.step[data-step="${currentStep}"]`).classList.add('active');
                 document.querySelector(`.step[data-step="${currentStep}"]`).classList.remove('completed');
             }
+        }
+
+        function updateStepIndicators() {
+            document.querySelectorAll('.step').forEach((step, index) => {
+                const stepNumber = index + 1;
+                step.classList.remove('active', 'completed');
+                
+                if (stepNumber < currentStep) {
+                    step.classList.add('completed');
+                } else if (stepNumber === currentStep) {
+                    step.classList.add('active');
+                }
+            });
         }
 
         // Dynamic list management
@@ -960,7 +1001,7 @@
                                 </div>
                                 <div class="item-date">${exp.duration}</div>
                             </div>
-                            <p>${exp.description}</p>
+                            <div class="item-description">${exp.description}</div>
                         </div>
                     `;
                 });
@@ -1013,24 +1054,31 @@
             html2canvas(resumeElement, {
                 scale: 2,
                 useCORS: true,
-                allowTaint: true
+                allowTaint: true,
+                width: resumeElement.scrollWidth,
+                height: resumeElement.scrollHeight
             }).then(canvas => {
                 const imgData = canvas.toDataURL('image/png');
                 const pdf = new jsPDF('p', 'mm', 'a4');
-                const imgWidth = 210;
-                const pageHeight = 295;
-                const imgHeight = (canvas.height * imgWidth) / canvas.width;
-                let heightLeft = imgHeight;
-                let position = 0;
-
-                pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-                heightLeft -= pageHeight;
-
-                while (heightLeft >= 0) {
-                    position = heightLeft - imgHeight;
-                    pdf.addPage();
-                    pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-                    heightLeft -= pageHeight;
+                
+                // Calculate dimensions to fit on one page
+                const pdfWidth = pdf.internal.pageSize.getWidth();
+                const pdfHeight = pdf.internal.pageSize.getHeight();
+                const imgWidth = pdfWidth;
+                const imgHeight = (canvas.height * pdfWidth) / canvas.width;
+                
+                // If content is too tall, scale it down to fit
+                if (imgHeight > pdfHeight) {
+                    const scaleFactor = pdfHeight / imgHeight;
+                    const scaledWidth = imgWidth * scaleFactor;
+                    const scaledHeight = pdfHeight;
+                    const xOffset = (pdfWidth - scaledWidth) / 2;
+                    
+                    pdf.addImage(imgData, 'PNG', xOffset, 0, scaledWidth, scaledHeight);
+                } else {
+                    // Center vertically if content is shorter than page
+                    const yOffset = (pdfHeight - imgHeight) / 2;
+                    pdf.addImage(imgData, 'PNG', 0, yOffset, imgWidth, imgHeight);
                 }
 
                 pdf.save(`${resumeData.personal.fullName.replace(/\s+/g, '_')}_Resume.pdf`);
